@@ -64,7 +64,6 @@ public class Controlador {
             case 4:
                 break;
         }
-
     }
     public void ejecutarMovimiento(){
         int opcion = 0;
@@ -72,7 +71,7 @@ public class Controlador {
             ui.mostrarMenuMovimiento();
             opcion = ui.leerOpcion();
             ejecutarOpcionMovimiento(opcion);
-        } while (opcion != 3);
+        } while(opcion != 3);
     }
 
     private void ejecutarOpcionMovimiento(int opcion) {
@@ -105,7 +104,7 @@ public class Controlador {
         ui.imprimirMensaje("Ingrese el número de cuenta: ");
         int numCuenta = ui.leerOpcion();
         if(gestor.verificacionNumeroCuenta(numCuenta) == false) {
-            int saldo = 0;
+            double saldo = 0;
             LocalDate fechaApertura = LocalDate.now();
             ui.imprimirMensaje("Ingrese la identificación del cliente dueño de la cuenta: ");
             String idCliente = ui.leerTexto();
@@ -115,11 +114,11 @@ public class Controlador {
             System.out.println("Ya exise una cuenta con ese número");
         }
     }
-        private void crearCuentaAhorro() {
+    private void crearCuentaAhorro() {
         ui.imprimirMensaje("Ingrese el número de cuenta: ");
         int numCuenta = ui.leerOpcion();
         if(gestor.verificacionNumeroCuenta(numCuenta) == false) {
-            int saldo = 0;
+            double saldo = 0;
             LocalDate fechaApertura = LocalDate.now();
             ui.imprimirMensaje("Ingrese la identificación del cliente dueño de la cuenta: ");
             String idCliente = ui.leerTexto();
@@ -133,7 +132,7 @@ public class Controlador {
         ui.imprimirMensaje("Ingrese el número de cuenta: ");
         int numCuenta = ui.leerOpcion();
         if(gestor.verificacionNumeroCuenta(numCuenta) == false) {
-            int saldo = 0;
+            double saldo = 0;
             LocalDate fechaApertura = LocalDate.now();
             ui.imprimirMensaje("Ingrese la identificación del cliente dueño de la cuenta: ");
             String idCliente = ui.leerTexto();
@@ -157,13 +156,14 @@ public class Controlador {
         ui.imprimirMensaje("Ingrese la descripción del depósito: ");
         String descripcion = ui.leerTexto();
         ui.imprimirMensaje("Ingrese el monto de depósito: ");
-        double montoDeposito = ui.leerOpcion();
+        double montoDeposito = ui.leerDouble();
         TipoMovimiento movimiento = TipoMovimiento.DEPOSITO;
+        //gestor.listarCuentasCorrientes();
         gestor.guardarMovimiento(fecha,descripcion,montoDeposito,movimiento,numCuenta);
-        int tipo = gestor.verificacionTipoCuenta(numCuenta);
-        String idCliente = gestor.encontrarCuenta(numCuenta).getIdCliente();
+        //int tipo = gestor.verificacionTipoCuenta(numCuenta);
+        //String idCliente = gestor.encontrarCuenta(numCuenta).getIdCliente();
         try {
-            gestor.modificarSaldoCuenta(numCuenta,tipo,montoDeposito,TipoMovimiento.DEPOSITO);
+            gestor.modificarSaldoCuenta(numCuenta,montoDeposito,TipoMovimiento.DEPOSITO);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -177,13 +177,14 @@ public class Controlador {
         ui.imprimirMensaje("Ingrese la descripción del retiro: ");
         String descripcion = ui.leerTexto();
         ui.imprimirMensaje("Ingrese el monto del retiro: ");
-        double montoRetiro = ui.leerOpcion();
+        double montoRetiro = ui.leerDouble();
         TipoMovimiento movimiento = TipoMovimiento.RETIRO;
+        //gestor.listaCuentaCorriente();
         gestor.guardarMovimiento(fecha,descripcion,montoRetiro,movimiento,numCuenta);
-        int tipo = gestor.verificacionTipoCuenta(numCuenta);
-        System.out.println("Tipo "+tipo);
+        //int tipo = gestor.verificacionTipoCuenta(numCuenta);
+        //System.out.println("Tipo "+tipo);
         try {
-            gestor.modificarSaldoCuenta(numCuenta,tipo,montoRetiro,TipoMovimiento.RETIRO);
+            gestor.modificarSaldoCuenta(numCuenta,montoRetiro,TipoMovimiento.RETIRO);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

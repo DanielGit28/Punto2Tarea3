@@ -30,7 +30,7 @@ public class Gestor {
     //----FIN SECCION CLIENTES----
 
     //----SECCION DE CUENTAS----
-    public void guardarCuentaCorriente(int numeroCuenta, int saldo, LocalDate fechaApertura,String idCliente) {
+    public void guardarCuentaCorriente(int numeroCuenta, double saldo, LocalDate fechaApertura,String idCliente) {
         Cuenta cuenta = new Cuenta(numeroCuenta,saldo,fechaApertura,idCliente);
         ArrayList<String> lines = new ArrayList<>();
         lines.add(cuenta.toCSVLine());
@@ -43,7 +43,7 @@ public class Gestor {
     }
 
 
-    public void guardarCuentaAhorro(int numeroCuenta, int saldo, LocalDate fechaApertura, String idCliente) {
+    public void guardarCuentaAhorro(int numeroCuenta, double saldo, LocalDate fechaApertura, String idCliente) {
         CuentaAhorro cuenta = new CuentaAhorro(numeroCuenta,saldo,fechaApertura, idCliente);
         ArrayList<String> lines = new ArrayList<>();
         lines.add(cuenta.toCSVLine());
@@ -55,7 +55,7 @@ public class Gestor {
         }
     }
 
-    public void guardarCuentaAhorroProgramado(int numeroCuenta, int saldo, LocalDate fechaApertura,String idCliente,int cuentaCorrienteAsociada) {
+    public void guardarCuentaAhorroProgramado(int numeroCuenta, double saldo, LocalDate fechaApertura,String idCliente,int cuentaCorrienteAsociada) {
         CuentaAhorroProgramado cuenta = new CuentaAhorroProgramado(numeroCuenta,saldo,fechaApertura,idCliente,cuentaCorrienteAsociada);
         ArrayList<String> lines = new ArrayList<>();
         lines.add(cuenta.toCSVLine());
@@ -78,8 +78,9 @@ public class Gestor {
         }
     }
 
-    public void modificarSaldoCuenta(int numeroCuenta,int tipoCuenta, double monto, TipoMovimiento tipoMovimiento) throws FileNotFoundException {
+    public void modificarSaldoCuenta(int numeroCuenta, double monto, TipoMovimiento tipoMovimiento) throws FileNotFoundException {
         //BufferedReader rd = null;
+        int tipoCuenta = verificacionTipoCuenta(numeroCuenta);
         String path = null;
         double saldoNuevo = 0;
         Cuenta cuentaBuscada = encontrarCuenta(numeroCuenta);
@@ -128,7 +129,7 @@ public class Gestor {
             }
         }
         cuentaBuscada.setSaldo(saldoNuevo);
-        System.out.println(cuentaBuscada.toCSVLine());
+        //System.out.println(cuentaBuscada.toCSVLine());
         lineasNuevas.set(pos, cuentaBuscada.toCSVLine());
 
         try {
@@ -246,6 +247,9 @@ public class Gestor {
     public boolean verificacionNumeroCuenta(int numCuenta) {
         boolean estado = false;
         List<Cuenta> corrientes = listaCuentaCorriente();
+        for(Cuenta cuenta: corrientes) {
+            System.out.println(cuenta.toCSVLine());
+        }
         List<CuentaAhorro> ahorros = listaCuentaAhorro();
         List<CuentaAhorroProgramado> ahorrosProgramados = listaCuentaAhorroProgramado();
         for (Cuenta cuenta: corrientes) {
@@ -266,6 +270,29 @@ public class Gestor {
         return estado;
     }
 
+    public void listarCuentasCorrientes(){
+        File archivo = new File("c:\\dev\\listOfCuentasCorrientes.csv");
+        ArrayList<Cuenta> result = new ArrayList<>();
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader("c:\\dev\\listOfCuentasCorrientes.csv"));
+            String currentLine = reader.readLine();
+            System.out.println(currentLine);
+            while (currentLine != null) {
+                result.add(new Cuenta(currentLine));
+                currentLine = reader.readLine();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (Cuenta cuenta: result) {
+            System.out.println(cuenta.toCSVLine());
+        }
+    }
+
     public ArrayList<Cuenta> listaCuentaCorriente(){
         File archivo = new File("c:\\dev\\listOfCuentasCorrientes.csv");
         ArrayList<Cuenta> result = new ArrayList<>();
@@ -273,7 +300,6 @@ public class Gestor {
         if(archivo.exists()) {
             try {
                 reader = new BufferedReader(new FileReader("c:\\dev\\listOfCuentasCorrientes.csv"));
-
                 String currentLine = reader.readLine();
                 while (currentLine != null) {
                     result.add(new Cuenta(currentLine));

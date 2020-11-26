@@ -24,7 +24,7 @@ public class CuentaAhorro extends Cuenta{
     public CuentaAhorro(String sourceLines) {
         String[] datos = sourceLines.split(",");
         this.numeroCuenta = Integer.parseInt(datos[0]);
-        this.saldo = Integer.parseInt(datos[1]);
+        this.saldo = Double.parseDouble(datos[1]);
         this.fechaApertura = LocalDate.parse(datos[2]);
         this.idCliente = datos[3];
         this.tasaInteres = Integer.parseInt(datos[4]);

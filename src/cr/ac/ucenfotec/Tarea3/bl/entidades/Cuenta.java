@@ -10,10 +10,6 @@ public class Cuenta implements SerializacionCSV {
     protected LocalDate fechaApertura;
     protected String idCliente;
 
-
-    public Cuenta() {
-    }
-
     public int getNumeroCuenta() {
         return numeroCuenta;
     }
@@ -46,6 +42,9 @@ public class Cuenta implements SerializacionCSV {
         this.idCliente = idCliente;
     }
 
+    public Cuenta() {
+    }
+
     public Cuenta(int numeroCuenta, double saldo, LocalDate fechaApertura, String idCliente) {
         this.numeroCuenta = numeroCuenta;
         this.saldo = saldo;
@@ -55,7 +54,7 @@ public class Cuenta implements SerializacionCSV {
     public Cuenta(String sourceLines) {
         String[] datos = sourceLines.split(",");
         this.numeroCuenta = Integer.parseInt(datos[0]);
-        this.saldo = Double.parseDouble((datos[1]));
+        this.saldo = Double.parseDouble(datos[1]);
         this.fechaApertura = LocalDate.parse(datos[2]);
         this.idCliente = datos[3];
     }

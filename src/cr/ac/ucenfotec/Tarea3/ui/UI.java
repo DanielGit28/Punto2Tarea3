@@ -36,7 +36,9 @@ public class UI {
         output.println("Su opcion es: ");
         return input.nextInt();
     }
-
+    public double leerDouble() {
+        return input.nextDouble();
+    }
     public void imprimirMensaje(String mensaje) {
         output.println(mensaje);
     }
