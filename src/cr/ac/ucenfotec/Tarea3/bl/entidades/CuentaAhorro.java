@@ -17,11 +17,18 @@ public class CuentaAhorro extends Cuenta{
 
     public CuentaAhorro() {}
 
-    public CuentaAhorro(int numeroCuenta, int saldo, LocalDate fechaApertura, int tasaInteres) {
-        super(numeroCuenta, saldo, fechaApertura);
+    public CuentaAhorro(int numeroCuenta, double saldo, LocalDate fechaApertura,String idCliente) {
+        super(numeroCuenta, saldo, fechaApertura,idCliente);
         this.tasaInteres = tasaInteres;
     }
-
+    public CuentaAhorro(String sourceLines) {
+        String[] datos = sourceLines.split(",");
+        this.numeroCuenta = Integer.parseInt(datos[0]);
+        this.saldo = Integer.parseInt(datos[1]);
+        this.fechaApertura = LocalDate.parse(datos[2]);
+        this.idCliente = datos[3];
+        this.tasaInteres = Integer.parseInt(datos[4]);
+    }
     @Override
     public String toString() {
         return "CuentaAhorro{" +
@@ -29,10 +36,11 @@ public class CuentaAhorro extends Cuenta{
                 ", numeroCuenta=" + numeroCuenta +
                 ", saldo=" + saldo +
                 ", fechaApertura=" + fechaApertura +
+                ", idCliente=" + idCliente +
                 '}';
     }
     @Override
     public String toCSVLine() {
-        return this.numeroCuenta + "," + this.saldo + "," + this.fechaApertura + "," + this.tasaInteres;
+        return this.numeroCuenta + "," + this.saldo + "," + this.fechaApertura + "," + this.idCliente + "," + this.tasaInteres;
     }
 }
